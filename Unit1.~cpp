@@ -3,6 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
+#include<mmsystem.h> //dzwiek
 #include "Unit1.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -105,6 +106,7 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
              pilka->Top < paletkaPG->Top + paletkaPG->Height + pilka->Height/2 &&
              pilka->Left + pilka->Width > paletkaPG->Left)
              {
+             sndPlaySound("snd/d1.wav",SND_ASYNC);
              if(x<0)
                  x = -x;
              }
@@ -112,6 +114,7 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
              pilka->Top < paletkaLG->Top + paletkaLG->Height + pilka->Height/2 &&
              pilka->Left < paletkaLG->Left + paletkaLG->Width)
              {
+             sndPlaySound("snd/d2.wav",SND_ASYNC);
              if(x>0)
                  x = -x;
              }
