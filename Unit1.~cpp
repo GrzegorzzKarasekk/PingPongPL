@@ -3,11 +3,15 @@
 #include <vcl.h>
 #pragma hdrstop
 
+#include<mmsystem.h> //dzwiek
 #include "Unit1.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
+ int x = -8;
+ int y = -8;
+
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
@@ -19,23 +23,25 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 void __fastcall TForm1::goraGLTimer(TObject *Sender)
 {
-    paletkaLG->Top -=10;
+    if(paletkaLG->Top >= stol->Top)
+        paletkaLG->Top -=10;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::dolGLTimer(TObject *Sender)
 {
-    paletkaLG->Top +=10;
+    if(paletkaLG->Top <= stol->Top + stol->Height - paletkaPG->Height)
+        paletkaLG->Top +=10;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::goraGPTimer(TObject *Sender)
 {
-    if(paletkaPG->Top >= tlo->Top - 5)
+    if(paletkaPG->Top >= stol->Top)
         paletkaPG->Top -=10;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::dolGPTimer(TObject *Sender)
 {
-    if(paletkaPG->Top < tlo->Top + tlo->Height - paletkaPG->Height + 5)
+    if(paletkaPG->Top <= stol->Top + stol->Height - paletkaPG->Height)
         paletkaPG->Top +=10;
 }
 //---------------------------------------------------------------------------
@@ -66,6 +72,53 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
         goraGP->Enabled = false;
     if( Key == VK_DOWN)
         dolGP->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
+{
+   pilka->Left -= x;
+   pilka->Top  -= y;
+
+   //odbijanie od góry
+
+   if(pilka->Top >= stol->Top)
+        y = -y;
+   //odbijanie od do³u
+   if(pilka->Top <= stol->Top + stol->Height - pilka->Height)
+        y = -y;
+
+   //WygranaGL
+
+     if(pilka->Left +5 > paletkaPG->Left + paletkaPG->Width)
+     {
+        pilkaTimer->Enabled = false;
+        pilka->Visible = false;
+     }
+     //WygranaGP
+     else if(pilka->Left +5 < paletkaLG->Left + paletkaLG->Width)
+     {
+        pilkaTimer->Enabled = false;
+        pilka->Visible = false;
+     }
+     else if(pilka->Top > paletkaPG->Top - pilka->Height/2 &&
+             pilka->Top < paletkaPG->Top + paletkaPG->Height + pilka->Height/2 &&
+             pilka->Left + pilka->Width > paletkaPG->Left)
+             {
+             sndPlaySound("snd/d1.wav",SND_ASYNC);
+             if(x<0)
+                 x = -x;
+             }
+     else if(pilka->Top > paletkaLG->Top - pilka->Height/2 &&
+             pilka->Top < paletkaLG->Top + paletkaLG->Height + pilka->Height/2 &&
+             pilka->Left < paletkaLG->Left + paletkaLG->Width)
+             {
+             sndPlaySound("snd/d2.wav",SND_ASYNC);
+             if(x>0)
+                 x = -x;
+             }
+
 }
 //---------------------------------------------------------------------------
 
