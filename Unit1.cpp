@@ -8,6 +8,9 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
+ int x = -8;
+ int y = -8;
+
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
@@ -71,4 +74,49 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
+{
+   pilka->Left -= x;
+   pilka->Top  -= y;
+
+   //odbijanie od góry
+
+   if(pilka->Top >= stol->Top)
+        y = -y;
+   //odbijanie od do³u
+   if(pilka->Top <= stol->Top + stol->Height - pilka->Height)
+        y = -y;
+
+   //WygranaGL
+
+     if(pilka->Left +5 > paletkaPG->Left + paletkaPG->Width)
+     {
+        pilkaTimer->Enabled = false;
+        pilka->Visible = false;
+     }
+     //WygranaGP
+     else if(pilka->Left +5 < paletkaLG->Left + paletkaLG->Width)
+     {
+        pilkaTimer->Enabled = false;
+        pilka->Visible = false;
+     }
+     else if(pilka->Top > paletkaPG->Top - pilka->Height/2 &&
+             pilka->Top < paletkaPG->Top + paletkaPG->Height + pilka->Height/2 &&
+             pilka->Left + pilka->Width > paletkaPG->Left)
+             {
+             
+             if(x<0)
+                 x = -x;
+             }
+     else if(pilka->Top > paletkaLG->Top - pilka->Height/2 &&
+             pilka->Top < paletkaLG->Top + paletkaLG->Height + pilka->Height/2 &&
+             pilka->Left < paletkaLG->Left + paletkaLG->Width)
+             {
+             if(x>0)
+                 x = -x;
+             }
+
+}
+//---------------------------------------------------------------------------
 

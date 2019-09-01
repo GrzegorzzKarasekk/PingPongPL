@@ -22,6 +22,8 @@ __published:	// IDE-managed Components
         TTimer *dolGL;
         TTimer *goraGP;
         TTimer *dolGP;
+        TTimer *pilkaTimer;
+        TImage *pilka;
         void __fastcall goraGLTimer(TObject *Sender);
         void __fastcall dolGLTimer(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key,
@@ -30,6 +32,7 @@ __published:	// IDE-managed Components
           TShiftState Shift);
         void __fastcall goraGPTimer(TObject *Sender);
         void __fastcall dolGPTimer(TObject *Sender);
+        void __fastcall pilkaTimerTimer(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);
