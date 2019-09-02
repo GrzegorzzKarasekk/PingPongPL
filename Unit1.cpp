@@ -11,16 +11,23 @@
 TForm1 *Form1;
  int x = -8;
  int y = -8;
+ int punktDlaGraczaL = 0;
+ int punktDlaGraczaP = 0;
+ int liczbaWylosowana = 0;
+ bool graRozpoczeta = false;
 
+ /*int losowanie()
+ {     liczbaWylosowana = 0;
+       liczbaWylosowana  = random(16)+4;
+       return liczbaWylosowana;
+ }
+ */
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
-
-
-
 void __fastcall TForm1::goraGLTimer(TObject *Sender)
 {
     if(paletkaLG->Top >= stol->Top)
@@ -89,36 +96,43 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
    if(pilka->Top <= stol->Top + stol->Height - pilka->Height)
         y = -y;
 
-   //WygranaGL
-
+     //WygranaGL
      if(pilka->Left +5 > paletkaPG->Left + paletkaPG->Width)
      {
         pilkaTimer->Enabled = false;
         pilka->Visible = false;
+        punktDlaGraczaL++;
      }
      //WygranaGP
      else if(pilka->Left +5 < paletkaLG->Left + paletkaLG->Width)
      {
         pilkaTimer->Enabled = false;
         pilka->Visible = false;
+        punktDlaGraczaP++;
      }
+     //Odbicie od prawej Paletki
      else if(pilka->Top > paletkaPG->Top - pilka->Height/2 &&
              pilka->Top < paletkaPG->Top + paletkaPG->Height + pilka->Height/2 &&
              pilka->Left + pilka->Width > paletkaPG->Left)
              {
              sndPlaySound("snd/d1.wav",SND_ASYNC);
+             pilkaTimer->Interval --;
              if(x<0)
                  x = -x;
              }
+     //Odbicie od lewej Paletki
      else if(pilka->Top > paletkaLG->Top - pilka->Height/2 &&
              pilka->Top < paletkaLG->Top + paletkaLG->Height + pilka->Height/2 &&
              pilka->Left < paletkaLG->Left + paletkaLG->Width)
              {
              sndPlaySound("snd/d2.wav",SND_ASYNC);
+             pilkaTimer->Interval --;
              if(x>0)
                  x = -x;
              }
 
 }
 //---------------------------------------------------------------------------
+
+
 
