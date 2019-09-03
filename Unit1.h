@@ -10,6 +10,7 @@
 #include <ExtCtrls.hpp>
 #include <jpeg.hpp>
 #include <Graphics.hpp>
+#include <Menus.hpp>
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {

@@ -13,15 +13,18 @@ TForm1 *Form1;
  int y = -8;
  int punktDlaGraczaL = 0;
  int punktDlaGraczaP = 0;
- int liczbaWylosowana = 0;
+ int licznikOdbic = 0;
+ int xZmiana = 0;
  bool graRozpoczeta = false;
 
- /*int losowanie()
- {     liczbaWylosowana = 0;
-       liczbaWylosowana  = random(16)+4;
-       return liczbaWylosowana;
+ int losowanie()
+ {
+      int liczbaWylosowana = 0;
+      randomize();
+      liczbaWylosowana  = random(23)+8;
+      return liczbaWylosowana;
  }
- */
+
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
@@ -96,15 +99,15 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
    if(pilka->Top <= stol->Top + stol->Height - pilka->Height)
         y = -y;
 
-     //WygranaGL
-     if(pilka->Left +5 > paletkaPG->Left + paletkaPG->Width)
+     //WygranaGL   SkUCHA Gracza PRawego
+     if(pilka->Left >= paletkaPG->Left + paletkaPG->Width + pilka->Width/2)
      {
         pilkaTimer->Enabled = false;
         pilka->Visible = false;
         punktDlaGraczaL++;
      }
-     //WygranaGP
-     else if(pilka->Left +5 < paletkaLG->Left + paletkaLG->Width)
+     //WygranaGP   SkUCHA Gracza Lewego
+     else if(pilka->Left + pilka->Width/2 <= paletkaLG->Left + paletkaLG->Width)
      {
         pilkaTimer->Enabled = false;
         pilka->Visible = false;
@@ -116,23 +119,32 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
              pilka->Left + pilka->Width > paletkaPG->Left)
              {
              sndPlaySound("snd/d1.wav",SND_ASYNC);
-             pilkaTimer->Interval --;
-             if(x<0)
-                 x = -x;
+             pilkaTimer->Interval -=1;
+             xZmiana = losowanie();
+             if(x < 0)
+             {
+                 x = xZmiana;
+                 licznikOdbic++;
+             }
              }
      //Odbicie od lewej Paletki
      else if(pilka->Top > paletkaLG->Top - pilka->Height/2 &&
              pilka->Top < paletkaLG->Top + paletkaLG->Height + pilka->Height/2 &&
              pilka->Left < paletkaLG->Left + paletkaLG->Width)
              {
+             pilkaTimer->Interval -=1;
              sndPlaySound("snd/d2.wav",SND_ASYNC);
-             pilkaTimer->Interval --;
-             if(x>0)
-                 x = -x;
+             xZmiana = losowanie();
+             if(x > 0)
+             {
+                 x = -xZmiana;
+                 licznikOdbic++;
+             }
              }
 
 }
 //---------------------------------------------------------------------------
+
 
 
 
