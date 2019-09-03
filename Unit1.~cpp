@@ -118,20 +118,16 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
              sndPlaySound("snd/d1.wav",SND_ASYNC);
              pilkaTimer->Interval --;
              if(x<0)
-                // liczbaWylosowana = losowanie();
-                // x = - liczbaWylosowana;
                  x = -x;
              }
-      //Odbicie od lewej Paletki
-      else if(pilka->Top > paletkaLG->Top - pilka->Height/2 &&
+     //Odbicie od lewej Paletki
+     else if(pilka->Top > paletkaLG->Top - pilka->Height/2 &&
              pilka->Top < paletkaLG->Top + paletkaLG->Height + pilka->Height/2 &&
-             pilka->Left + pilka->Width < paletkaLG->Left)
+             pilka->Left < paletkaLG->Left + paletkaLG->Width)
              {
              sndPlaySound("snd/d2.wav",SND_ASYNC);
-             pilkaTimer->Interval--;
-             if(x<0)
-                // liczbaWylosowana = losowanie();
-                // x = liczbaWylosowana;
+             pilkaTimer->Interval --;
+             if(x>0)
                  x = -x;
              }
 
