@@ -16,6 +16,16 @@ TForm1 *Form1;
  int licznikOdbic = 0;
  int xZmiana = 0;
  bool graRozpoczeta = false;
+ bool serwLewegoGracza = true;
+ int kto = 0;
+
+ int ktoZaczyna()
+ {
+      int liczbaW = 0;
+      randomize();
+      liczbaW  = random(2)+1;
+      return liczbaW;
+ }
 
  int losowanie()
  {
@@ -34,25 +44,25 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 void __fastcall TForm1::goraGLTimer(TObject *Sender)
 {
     if(paletkaLG->Top >= stol->Top)
-        paletkaLG->Top -=10;
+        paletkaLG->Top -=20;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::dolGLTimer(TObject *Sender)
 {
     if(paletkaLG->Top <= stol->Top + stol->Height - paletkaPG->Height)
-        paletkaLG->Top +=10;
+        paletkaLG->Top +=20;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::goraGPTimer(TObject *Sender)
 {
     if(paletkaPG->Top >= stol->Top)
-        paletkaPG->Top -=10;
+        paletkaPG->Top -=20;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::dolGPTimer(TObject *Sender)
 {
     if(paletkaPG->Top <= stol->Top + stol->Height - paletkaPG->Height)
-        paletkaPG->Top +=10;
+        paletkaPG->Top +=20;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
@@ -88,9 +98,16 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
 
 void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
 {
-   pilka->Left -= x;
-   pilka->Top  -= y;
-
+   if(serwLewegoGracza == true)
+   {
+        pilka->Left -= x;
+        pilka->Top  -= y;
+   }
+   else
+   {
+        pilka->Left +=  x;
+        pilka->Top  -=  y;
+   }
    //odbijanie od góry
 
    if(pilka->Top >= stol->Top)
@@ -100,51 +117,74 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
         y = -y;
 
      //WygranaGL   SkUCHA Gracza PRawego
-     if(pilka->Left >= paletkaPG->Left + paletkaPG->Width + pilka->Width/2)
+     if(pilka->Left >= paletkaPG->Left + paletkaPG->Width )
      {
         pilkaTimer->Enabled = false;
         pilka->Visible = false;
         punktDlaGraczaL++;
+        Label1->Caption = IntToStr(punktDlaGraczaL);
      }
      //WygranaGP   SkUCHA Gracza Lewego
-     else if(pilka->Left + pilka->Width/2 <= paletkaLG->Left + paletkaLG->Width)
+     else if(pilka->Left <= paletkaLG->Left - paletkaLG->Width)
      {
         pilkaTimer->Enabled = false;
         pilka->Visible = false;
         punktDlaGraczaP++;
+        Label2->Caption = IntToStr(punktDlaGraczaP);
      }
      //Odbicie od prawej Paletki
-     else if(pilka->Top > paletkaPG->Top - pilka->Height/2 &&
+      else if(pilka->Top > paletkaPG->Top - pilka->Height/2 &&
              pilka->Top < paletkaPG->Top + paletkaPG->Height + pilka->Height/2 &&
              pilka->Left + pilka->Width > paletkaPG->Left)
              {
              sndPlaySound("snd/d1.wav",SND_ASYNC);
-             pilkaTimer->Interval -=1;
              xZmiana = losowanie();
              if(x < 0)
              {
                  x = xZmiana;
                  licznikOdbic++;
+                 Label4->Caption = IntToStr(licznikOdbic);
              }
              }
      //Odbicie od lewej Paletki
      else if(pilka->Top > paletkaLG->Top - pilka->Height/2 &&
              pilka->Top < paletkaLG->Top + paletkaLG->Height + pilka->Height/2 &&
-             pilka->Left < paletkaLG->Left + paletkaLG->Width)
+              pilka->Left  < paletkaLG->Left + paletkaLG->Width)
              {
-             pilkaTimer->Interval -=1;
              sndPlaySound("snd/d2.wav",SND_ASYNC);
              xZmiana = losowanie();
              if(x > 0)
              {
                  x = -xZmiana;
                  licznikOdbic++;
+                 Label4->Caption = IntToStr(licznikOdbic);
              }
              }
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+   kto = ktoZaczyna();
+
+   Label1->Caption = "0";
+   Label2->Caption = "0";
+   Label4->Caption = "0";
+
+   if( kto == 1)
+   {
+        serwLewegoGracza = true;
+        sndPlaySound("snd/d2.wav",SND_ASYNC);
+        pilka->Left = 88;
+        pilka->Top =269;
+   }
+   else if(kto == 2)
+   {
+        serwLewegoGracza = false;
+        sndPlaySound("snd/d1.wav",SND_ASYNC);
+        pilka->Left = 1296;
+        pilka->Top = 269;
+   }
 
 }
 //---------------------------------------------------------------------------
-
-
-
 
