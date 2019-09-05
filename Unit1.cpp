@@ -18,6 +18,7 @@ TForm1 *Form1;
  bool graRozpoczeta = false;
  bool turaGraczaLewego = false;
  int graDoPunktow = 0;
+ char *wiadomosc;
 
  bool zaczynaLewy()
  {
@@ -360,7 +361,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 
 void __fastcall TForm1::Button3Click(TObject *Sender)
 {
-   graDoPunktow = 15;
+   graDoPunktow = 11;
    Button3->Visible = false;
    Button4->Visible = false;
 
@@ -412,4 +413,12 @@ void __fastcall TForm1::Button6Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TForm1::FormActivate(TObject *Sender)
+{
+    wiadomosc = "Gracz lewy steruje klawiczami A Z\nGracz prawy strza³kami góra dó³\nGra mo¿e by prowadzona do 11 lub 21 punktow\nZaczyna losowy gracz\nKazdy gracz serwuje dwukrotnie\n\n\nDla urozmaicenia przy kazdym odbicu pilka zmienia kat o losowa wartosc\n\nMilej zabawy ;)";
+
+    Application->MessageBoxA(wiadomosc,"Witaj", MB_OK);
+}
+//---------------------------------------------------------------------------
 

@@ -18,6 +18,7 @@ TForm1 *Form1;
  bool graRozpoczeta = false;
  bool turaGraczaLewego = false;
  int graDoPunktow = 0;
+ char *wiadomosc;
 
  bool zaczynaLewy()
  {
@@ -82,8 +83,8 @@ TForm1 *Form1;
      {
        if(turaGraczaLewego == true)
         {
-            x = 8;
-            y = 8;
+            x = -8;
+            y =  8;
             sndPlaySound("snd/d1.wav",SND_ASYNC);
             Form1->pilka->Left = 125;
             Form1->pilka->Top = 272;
@@ -104,8 +105,8 @@ TForm1 *Form1;
 
        if(turaGraczaLewego == true)
         {
-            x = 8;
-            y = 8;
+            x = -8;
+            y =  8;
             sndPlaySound("snd/d1.wav",SND_ASYNC);
             Form1->pilka->Left = 125;
             Form1->pilka->Top = 272;
@@ -127,8 +128,8 @@ TForm1 *Form1;
 
        if(turaGraczaLewego == true)
         {
-            x = 8;
-            y = 8;
+            x = -8;
+            y =  8;
             sndPlaySound("snd/d1.wav",SND_ASYNC);
             Form1->pilka->Left = 125;
             Form1->pilka->Top = 272;
@@ -147,8 +148,8 @@ TForm1 *Form1;
      {
         if(turaGraczaLewego == true)
         {
-            x = 8;
-            y = 8;
+            x = -8;
+            y =  8;
             sndPlaySound("snd/d1.wav",SND_ASYNC);
             Form1->pilka->Left = 125;
             Form1->pilka->Top = 272;
@@ -329,8 +330,8 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
         turaGraczaLewego = true;
         pilka->Left = 125;
         pilka->Top = 272;
-        x = 8;
-        y = 8;
+        x = -8;
+        y =  8;
      }
      if(zaczynaLewy() == false)
      {
@@ -412,4 +413,12 @@ void __fastcall TForm1::Button6Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TForm1::FormActivate(TObject *Sender)
+{
+    wiadomosc = "Gracz lewy steruje klawiczami A Z\nGracz prawy strza³kami góra dó³\nGra mo¿e by prowadzona do 15 lub 21 punktow\nZaczyna losowy gracz\nKazdy gracz serwuje dwukrotnie\n\n\nDla urozmaicenia przy kazdym odbicu pilka zmienia kat o losowa wartosc\n\nMilej zabawy ;)";
+
+    Application->MessageBoxA(wiadomosc,"Witaj", MB_OK);
+}
+//---------------------------------------------------------------------------
 
