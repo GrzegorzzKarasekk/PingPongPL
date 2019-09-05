@@ -9,8 +9,9 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
- int x = -0;
- int y = -0;
+ double x = 0;
+ double y = 0;
+ double zwiekszPredkosc = 0.5;
  int punktyGraczaL = 0;
  int punktyGraczaP = 0;
  int licznikOdbic = 0;
@@ -276,7 +277,7 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
              xZmiana = losowanie();
              if(x < 0)
              {
-                 x = xZmiana;
+                 x = xZmiana + zwiekszPredkosc;
              }
              licznikOdbic++;
              Label8->Caption = IntToStr(licznikOdbic);
@@ -291,7 +292,7 @@ void __fastcall TForm1::pilkaTimerTimer(TObject *Sender)
              xZmiana = losowanie();
              if(x > 0)
              {
-                 x = -xZmiana;
+                 x = -xZmiana - zwiekszPredkosc;
              }
              licznikOdbic++;
              Label8->Caption = IntToStr(licznikOdbic);
@@ -416,7 +417,7 @@ void __fastcall TForm1::Button6Click(TObject *Sender)
 
 void __fastcall TForm1::FormActivate(TObject *Sender)
 {
-    wiadomosc = "Gracz lewy steruje klawiczami A Z\nGracz prawy strza³kami góra dó³\nGra mo¿e by prowadzona do 11 lub 21 punktow\nZaczyna losowy gracz\nKazdy gracz serwuje dwukrotnie\n\n\nDla urozmaicenia przy kazdym odbicu pilka zmienia kat o losowa wartosc\n\nMilej zabawy ;)";
+    wiadomosc = "Gracz lewy steruje klawiczami <<A>> <<Z>>\nGracz prawy strza³kami <<GÓRA>> <<DÓ£>>\nGra mo¿e by prowadzona do 11 lub 21 punktow\nZaczyna losowy gracz\nKa¿dy gracz serwuje dwukrotnie\nNastêpnie zmiana osoby serwuj¹cej\n\nDla urozmaicenia:\n1.Przy ka¿dym odbicu pilka zmienia k¹t o losow¹ wartoœæ\n2.Ka¿de odbicie przyœpiesza pi³eczkê\n\nMilej zabawy ;)";
 
     Application->MessageBoxA(wiadomosc,"Witaj", MB_OK);
 }
